@@ -8,7 +8,7 @@ data "azurerm_resource_group" "existing" {
 }
 
 resource "azurerm_app_service_plan" "plan" {
-  name                = "photoapi-plan"
+  name                = "photomvc-plan"
   location            = data.azurerm_resource_group.existing.location
   resource_group_name = data.azurerm_resource_group.existing.name
 
@@ -22,7 +22,7 @@ resource "azurerm_app_service_plan" "plan" {
 }
 
 resource "azurerm_app_service" "app" {
-  name                = "photoapi-app"
+  name                = "photomvc-app"
   location            = data.azurerm_resource_group.existing.location
   resource_group_name = data.azurerm_resource_group.existing.name
   app_service_plan_id = azurerm_app_service_plan.plan.id

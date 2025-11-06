@@ -1,4 +1,5 @@
 using HelloWorldMvc.Configurations;
+using Microsoft.OpenApi.Models;
 using System.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +7,16 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Photo App API",
+        Version = "v1",
+        Description = "API endpoints for Photo App API combined with MVC."
+    });
+});
 
 builder.Services.Configure<ApiRelativeUrlConfig>(builder.Configuration.GetSection("ApiRelativeUrls"));
 
@@ -26,12 +37,22 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseSwagger();
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "MyApp API v1");
+    options.RoutePrefix = "swagger"; // available at /swagger
+});
+
 app.UseHttpsRedirection();
+
+app.UseStaticFiles();
+
 app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapStaticAssets();
+app.MapControllers(); // for /api routes
 
 app.MapControllerRoute(
     name: "default",
