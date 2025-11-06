@@ -4,14 +4,9 @@ namespace HelloWorldApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class HelloWorldController : ControllerBase
+    public class HelloWorldController(ILogger<HelloWorldController> logger) : ControllerBase
     {
-        private readonly ILogger<HelloWorldController> _logger;
-
-        public HelloWorldController(ILogger<HelloWorldController> logger)
-        {
-            _logger = logger;
-        }
+        private readonly ILogger<HelloWorldController> _logger = logger;
 
         [HttpGet]
         [Route("GetHelloWorld")]
