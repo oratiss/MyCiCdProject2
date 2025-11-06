@@ -26,6 +26,10 @@ namespace HelloWorldMvc.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Calls HelloWorld Api and returns its message.
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Hello()
         {
