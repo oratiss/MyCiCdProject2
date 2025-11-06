@@ -1,4 +1,5 @@
 using HelloWorldMvc.Configurations;
+using System.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,8 @@ builder.Services.Configure<ApiRelativeUrlConfig>(builder.Configuration.GetSectio
 builder.Services.AddHttpClient("ApiClient", client =>
 {
     client.BaseAddress = new Uri($"{builder.Configuration["ApiBaseUrl"]}");
+    client.DefaultRequestHeaders.Accept.Add(
+        new MediaTypeWithQualityHeaderValue("application/json"));
 });
 
 var app = builder.Build();

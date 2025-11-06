@@ -13,14 +13,16 @@ namespace HelloWorldApi.Controllers
             _logger = logger;
         }
 
-        [HttpGet(Name = "GetHelloWorld")]
+        [HttpGet]
+        [Route("GetHelloWorld")]
         public ActionResult<string> GetHelloWorld()
         {
             string result = "Hello World!";
             return Ok(result);
         }
 
-        //[HttpGet(Name = "GetGoodBye")]
+        //[HttpGet]
+        //[Route("GetGoodBye")]
         //public ActionResult<string> GetGoodBye()
         //{
         //    string result = "GoodBye World!";
