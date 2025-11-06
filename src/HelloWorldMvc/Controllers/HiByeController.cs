@@ -27,7 +27,7 @@ namespace HelloWorldMvc.Controllers
         }
 
         /// <summary>
-        /// Calls HelloWorld Api and returns its message.
+        /// Calls HelloWorld Api and returns its message. Message comes from api.
         /// </summary>
         /// <returns></returns>
         [HttpPost]
