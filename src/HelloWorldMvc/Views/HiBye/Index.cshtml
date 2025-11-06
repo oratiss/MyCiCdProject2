@@ -1,0 +1,25 @@
+﻿@using Microsoft.AspNetCore.Mvc.ModelBinding
+@model HelloWorldMvc.Models.HiByeIndexViewModel
+@{
+    ViewData["Title"] = "HiBye Page";
+
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome To The HiBye App</h1>
+    <p class="display-5">@Model.Message</p>
+    <br/>
+    <br/>
+    <br/>
+    <form asp-action="Hello" method="post">
+        <button type="submit" class="btn btn-primary">
+            Say Hello
+        </button>
+    </form>
+@*     <br/>
+    <form asp-action="GoodBye" method="post">
+        <button type="submit" class="btn btn-primary">
+            Say GoodBye
+        </button>
+    </form> *@
+</div>

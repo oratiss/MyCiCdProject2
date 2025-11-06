@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace HelloWorldApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class HelloWorldController : ControllerBase
     {
         private readonly ILogger<HelloWorldController> _logger;
@@ -14,11 +14,17 @@ namespace HelloWorldApi.Controllers
         }
 
         [HttpGet(Name = "GetHelloWorld")]
-        public ActionResult<string> Get()
+        public ActionResult<string> GetHelloWorld()
         {
             string result = "Hello World!";
             return Ok(result);
         }
-        //this is a comment
+
+        //[HttpGet(Name = "GetGoodBye")]
+        //public ActionResult<string> GetGoodBye()
+        //{
+        //    string result = "GoodBye World!";
+        //    return Ok(result);
+        //}
     }
 }
