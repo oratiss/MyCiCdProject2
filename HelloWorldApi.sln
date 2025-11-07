@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorldApi", "src\HelloW
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorldMvc", "src\HelloWorldMvc\HelloWorldMvc.csproj", "{705D8FFC-5651-4B7A-B83F-018DA1A45F01}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTest", "test\IntegrationTest\IntegrationTest.csproj", "{FA192F9F-D9F8-4912-9AF6-7FBFADB62FD9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{705D8FFC-5651-4B7A-B83F-018DA1A45F01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{705D8FFC-5651-4B7A-B83F-018DA1A45F01}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{705D8FFC-5651-4B7A-B83F-018DA1A45F01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA192F9F-D9F8-4912-9AF6-7FBFADB62FD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA192F9F-D9F8-4912-9AF6-7FBFADB62FD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA192F9F-D9F8-4912-9AF6-7FBFADB62FD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA192F9F-D9F8-4912-9AF6-7FBFADB62FD9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

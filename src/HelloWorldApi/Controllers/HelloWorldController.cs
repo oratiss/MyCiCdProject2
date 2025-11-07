@@ -16,12 +16,12 @@ namespace HelloWorldApi.Controllers
             return Ok(result);
         }
 
-        //[HttpGet]
-        //[Route("GetGoodBye")]
-        //public ActionResult<string> GetGoodBye()
-        //{
-        //    string result = "GoodBye World!";
-        //    return Ok(result);
-        //}
+        [HttpGet]
+        [Route("GetGoodBye")]
+        public ActionResult<string> GetGoodBye()
+        {
+            string result = "GoodBye World!";
+            return Ok(result);
+        }
     }
 }

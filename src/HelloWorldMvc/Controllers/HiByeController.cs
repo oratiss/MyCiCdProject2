@@ -30,7 +30,7 @@ namespace HelloWorldMvc.Controllers
         /// Calls HelloWorld Api and returns its message. Message comes from api.
         /// </summary>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost(Name = "Hello")]
         public async Task<IActionResult> Hello()
         {
             var client = httpClientFactory.CreateClient("ApiClient");
@@ -40,15 +40,15 @@ namespace HelloWorldMvc.Controllers
             return View("Index", model);
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> GoodBye()
-        //{
-        //    var client = _httpClientFactory.CreateClient("ApiClient");
-        //    var apiResult = await client.GetFromJsonAsync<string>(_relativeUrlConfig.GoodByeRelativeRoute);
+        [HttpPost(Name = "GoodBye")]
+        public async Task<IActionResult> GoodBye()
+        {
+            var client = httpClientFactory.CreateClient("ApiClient");
+            var apiResult = await client.GetFromJsonAsync<string>(_relativeUrlConfig.GoodByeRelativeRoute);
 
-        //    HiByeIndexViewModel model = new() { Message = apiResult };
-        //    return View("Index", model);
-        //}
+            HiByeIndexViewModel model = new() { Message = apiResult };
+            return View("Index", model);
+        }
 
 
         public IActionResult Privacy()

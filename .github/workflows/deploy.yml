@@ -1,10 +1,11 @@
-name: Build & Deploy Combined .NET App
+name: Build, Test & Deploy Combined .NET App
 
 on:
   push:
     branches: [ "main" ]
 
 jobs:
+  # 🧱 1. Build
   build:
     runs-on: self-hosted
     name: Build .NET Project
@@ -13,7 +14,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup .NET 9
+      - name: Setup .NET 9 SDK
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 9.0.x
@@ -35,9 +36,36 @@ jobs:
           name: webapp-package
           path: ./publish/
 
-  deploy:
+  # 🧪 2. Test (depends on Build)
+  test:
     runs-on: self-hosted
     needs: build
+    name: Run Integration Tests
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 9 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+        env:
+          DOTNET_INSTALL_DIR: C:\actions-runner\dotnet
+
+      - name: Restore test dependencies
+        run: dotnet restore ./test/IntegrationTest/IntegrationTest.csproj
+
+      - name: Build test project
+        run: dotnet build ./test/IntegrationTest/IntegrationTest.csproj -c Release --no-restore
+
+      - name: Run integration tests
+        run: dotnet test ./test/IntegrationTest/IntegrationTest.csproj --no-build --verbosity normal
+
+  # 🚀 3. Deploy (depends on Test)
+  deploy:
+    runs-on: self-hosted
+    needs: test
     name: Deploy to Azure Web App
 
     steps:
