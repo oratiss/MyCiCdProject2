@@ -79,35 +79,33 @@ jobs:
         shell: powershell
         run: |
           Write-Host "Extracting FTP credentials from Azure publish profile..."
-
           $publishProfileXml = @"
           ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           "@
-
           $xml = [xml]$publishProfileXml
-
+          
           # Find FTP section
           $ftpProfile = $xml.publishData.publishProfile | Where-Object { $_.publishMethod -eq "FTP" }
-
           if (-not $ftpProfile) {
               Write-Error "❌ No FTP publish profile found."
               exit 1
           }
-
+          
           # Clean URL
           $rawServer = $ftpProfile.publishUrl -replace '^(ftps?|https?)://', ''
           $server = $rawServer.Split('/')[0]
-
-          # Fix username escaping
-          $username = $ftpProfile.userName -replace '\\', '\\\\'
+          
+          # Get credentials as-is from XML
+          $username = $ftpProfile.userName
           $password = $ftpProfile.userPWD
-
+          
           Write-Host "✅ FTP target: $server"
-          Write-Host "✅ Username (escaped): $username"
-
-          echo "server=$server" >> $env:GITHUB_OUTPUT
-          echo "username=$username" >> $env:GITHUB_OUTPUT
-          echo "password=$password" >> $env:GITHUB_OUTPUT
+          Write-Host "✅ Username: $username"
+          
+          # Use Add-Content with UTF8 encoding to preserve special characters
+          Add-Content -Path $env:GITHUB_OUTPUT -Value "server=$server" -Encoding UTF8
+          Add-Content -Path $env:GITHUB_OUTPUT -Value "username=$username" -Encoding UTF8
+          Add-Content -Path $env:GITHUB_OUTPUT -Value "password=$password" -Encoding UTF8
 
       - name: Deploy using FTPS
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
