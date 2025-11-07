@@ -65,22 +65,40 @@ jobs:
   deploy:
     runs-on: self-hosted
     needs: test
-    name: Deploy via FTPS to Azure Web App
-
+    name: Deploy to Azure Web App via ZIP
     steps:
       - name: Download published artifact
         uses: actions/download-artifact@v4
         with:
           name: webapp-package
           path: ./publish
-
-      - name: Deploy using FTPS
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./publish/
-          server-dir: /site/wwwroot/
-          protocol: ftps
-          log-level: verbose
+      
+      - name: Deploy via ZIP Deploy
+        shell: powershell
+        run: |
+          # Create ZIP
+          Compress-Archive -Path ./publish/* -DestinationPath ./app.zip -Force
+          
+          # Parse publish profile
+          $publishProfileXml = @"
+          ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          "@
+          $xml = [xml]$publishProfileXml
+          $msdeployProfile = $xml.publishData.publishProfile | Where-Object { $_.publishMethod -eq "MSDeploy" }
+          
+          $siteName = $msdeployProfile.msdeploySite
+          $username = $msdeployProfile.userName
+          $password = $msdeployProfile.userPWD
+          
+          # Deploy
+          $base64Auth = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("${username}:${password}"))
+          $apiUrl = "https://${siteName}.scm.azurewebsites.net/api/zipdeploy"
+          
+          Write-Host "🚀 Deploying ZIP to Azure..."
+          Invoke-RestMethod -Uri $apiUrl -Method POST `
+            -InFile "./app.zip" `
+            -Headers @{Authorization=("Basic {0}" -f $base64Auth)} `
+            -ContentType "application/zip" `
+            -TimeoutSec 1800
+          
+          Write-Host "✅ Deployment complete!"
