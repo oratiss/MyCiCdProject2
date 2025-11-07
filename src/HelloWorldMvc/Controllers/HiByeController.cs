@@ -20,7 +20,7 @@ namespace HelloWorldMvc.Controllers
         {
             var model = new HiByeIndexViewModel
             {
-                Message = "This is the message that will change by pressing below button."
+                Message = "This is the sentence/phrase that will change by pressing below button."
             };
 
             return View(model);
