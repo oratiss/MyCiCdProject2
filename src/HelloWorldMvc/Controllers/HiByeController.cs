@@ -50,6 +50,16 @@ namespace HelloWorldMvc.Controllers
             return View("Index", model);
         }
 
+        [HttpPost(Name = "WhatsUp")]
+        public async Task<IActionResult> WhatsUp()
+        {
+            var client = httpClientFactory.CreateClient("ApiClient");
+            var apiResult = await client.GetFromJsonAsync<string>(_relativeUrlConfig.GoodByeRelativeRoute);
+
+            HiByeIndexViewModel model = new() { Message = apiResult };
+            return View("Index", model);
+        }
+
 
         public IActionResult Privacy()
         {
