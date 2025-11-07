@@ -36,7 +36,7 @@ jobs:
           name: webapp-package
           path: ./publish/
 
-  # 🧪 2. Test (depends on Build)
+  # 🧪 2. Test
   test:
     runs-on: self-hosted
     needs: build
@@ -62,7 +62,7 @@ jobs:
       - name: Run integration tests
         run: dotnet test ./test/IntegrationTest/IntegrationTest.csproj -c Release --no-build --verbosity normal
 
-  # 🚀 3. Deploy (depends on Test)
+  # 🚀 3. Deploy
   deploy:
     runs-on: self-hosted
     needs: test
@@ -81,27 +81,28 @@ jobs:
         run: |
           Write-Host "Extracting FTP credentials from Azure publish profile..."
 
-          # Safely load XML from GitHub secret using here-string
           $publishProfileXml = @"
           ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           "@
 
           $xml = [xml]$publishProfileXml
 
-          # Find the FTP profile
+          # Find FTP section
           $ftpProfile = $xml.publishData.publishProfile | Where-Object { $_.publishMethod -eq "FTP" }
 
           if (-not $ftpProfile) {
-              Write-Error "❌ No FTP publish profile found in the provided publish settings."
+              Write-Error "❌ No FTP publish profile found."
               exit 1
           }
 
-          # Build FTPS server and credentials
-          $server = $ftpProfile.publishUrl
+          # Clean up URL (remove ftps:// or ftp:// if present)
+          $rawServer = $ftpProfile.publishUrl -replace '^(ftps?|https?)://', ''
+          $server = $rawServer.Split('/')[0]
+
           $username = $ftpProfile.userName
           $password = $ftpProfile.userPWD
 
-          Write-Host "✅ Found FTP target: $server"
+          Write-Host "✅ FTP target: $server"
           echo "server=$server" >> $env:GITHUB_OUTPUT
           echo "username=$username" >> $env:GITHUB_OUTPUT
           echo "password=$password" >> $env:GITHUB_OUTPUT
