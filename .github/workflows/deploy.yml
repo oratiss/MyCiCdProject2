@@ -62,7 +62,6 @@ jobs:
       - name: Run integration tests
         run: dotnet test ./test/IntegrationTest/IntegrationTest.csproj -c Release --no-build --verbosity normal
 
-  # 🚀 3. Deploy
   deploy:
     runs-on: self-hosted
     needs: test
@@ -95,14 +94,17 @@ jobs:
               exit 1
           }
 
-          # Clean up URL (remove ftps:// or ftp:// if present)
+          # Clean URL
           $rawServer = $ftpProfile.publishUrl -replace '^(ftps?|https?)://', ''
           $server = $rawServer.Split('/')[0]
 
-          $username = $ftpProfile.userName
+          # Fix username escaping
+          $username = $ftpProfile.userName -replace '\\', '\\\\'
           $password = $ftpProfile.userPWD
 
           Write-Host "✅ FTP target: $server"
+          Write-Host "✅ Username (escaped): $username"
+
           echo "server=$server" >> $env:GITHUB_OUTPUT
           echo "username=$username" >> $env:GITHUB_OUTPUT
           echo "password=$password" >> $env:GITHUB_OUTPUT
