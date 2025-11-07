@@ -76,7 +76,7 @@ jobs:
       - name: List files to be deployed
         shell: powershell
         run: |
-          Write-Host "📦 Files in publish folder:"
+          Write-Host "Files in publish folder:"
           Get-ChildItem -Path ./publish -Recurse | Select-Object FullName
       
       - name: Deploy to Azure Web App
@@ -85,4 +85,4 @@ jobs:
           app-name: photomvc-app
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: ./publish
-          clean: true  # Clean target directory before deploy
+
