@@ -78,9 +78,11 @@ jobs:
 
       - name: Extract FTPS credentials from publish profile
         id: ftpcreds
-        shell: pwsh
+        shell: powershell
         run: |
-          # Save publish profile secret as XML
+          Write-Host "Extracting FTP credentials from Azure publish profile..."
+          
+          # Load the XML content
           $publishProfileXml = "${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}"
           $xml = [xml]$publishProfileXml
 
@@ -97,6 +99,7 @@ jobs:
           $username = $ftpProfile.userName
           $password = $ftpProfile.userPWD
 
+          Write-Host "✅ Found FTP target: $server"
           echo "server=$server" >> $env:GITHUB_OUTPUT
           echo "username=$username" >> $env:GITHUB_OUTPUT
           echo "password=$password" >> $env:GITHUB_OUTPUT
@@ -111,4 +114,5 @@ jobs:
           server-dir: /site/wwwroot/
           protocol: ftps
           log-level: verbose
+
 
