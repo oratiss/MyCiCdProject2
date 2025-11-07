@@ -62,7 +62,7 @@ jobs:
       - name: Run integration tests
         run: dotnet test ./test/IntegrationTest/IntegrationTest.csproj -c Release --no-build --verbosity normal
 
-        
+
   # 🚀 3. Deploy (depends on Test)
   deploy:
     runs-on: self-hosted
@@ -102,7 +102,7 @@ jobs:
           echo "password=$password" >> $env:GITHUB_OUTPUT
 
       - name: Deploy using extracted FTPS credentials
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
           server: ${{ steps.ftpcreds.outputs.server }}
           username: ${{ steps.ftpcreds.outputs.username }}
