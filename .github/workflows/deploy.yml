@@ -62,12 +62,11 @@ jobs:
       - name: Run integration tests
         run: dotnet test ./test/IntegrationTest/IntegrationTest.csproj -c Release --no-build --verbosity normal
 
-
   # 🚀 3. Deploy (depends on Test)
   deploy:
     runs-on: self-hosted
     needs: test
-    name: Deploy via FTPS
+    name: Deploy to Azure Web App
 
     steps:
       - name: Download published artifact
@@ -76,46 +75,9 @@ jobs:
           name: webapp-package
           path: ./publish
 
-      - name: Extract FTPS credentials from publish profile
-        id: ftpcreds
-        shell: powershell
-        run: |
-          Write-Host "Extracting FTP credentials from Azure publish profile..."
-
-          # Use here-string to preserve XML safely
-          $publishProfileXml = @"
-          ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          "@
-
-          $xml = [xml]$publishProfileXml
-
-          # Find the FTP profile
-          $ftpProfile = $xml.publishData.publishProfile | Where-Object { $_.publishMethod -eq "FTP" }
-
-          if (-not $ftpProfile) {
-              Write-Error "❌ No FTP publish profile found in the provided publish settings."
-              exit 1
-          }
-
-          # Build FTPS server and credentials
-          $server = $ftpProfile.publishUrl
-          $username = $ftpProfile.userName
-          $password = $ftpProfile.userPWD
-
-          Write-Host "✅ Found FTP target: $server"
-          echo "server=$server" >> $env:GITHUB_OUTPUT
-          echo "username=$username" >> $env:GITHUB_OUTPUT
-          echo "password=$password" >> $env:GITHUB_OUTPUT
-
-      - name: Deploy using extracted FTPS credentials
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
         with:
-          server: ${{ steps.ftpcreds.outputs.server }}
-          username: ${{ steps.ftpcreds.outputs.username }}
-          password: ${{ steps.ftpcreds.outputs.password }}
-          local-dir: ./publish/
-          server-dir: /site/wwwroot/
-          protocol: ftps
-          log-level: verbose
-
-
+          app-name: 'photomvc-app'
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: './publish'
