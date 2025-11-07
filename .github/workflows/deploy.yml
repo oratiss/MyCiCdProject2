@@ -98,7 +98,7 @@ jobs:
           }
 
           # Build FTPS server and credentials
-          $server = "ftps://$($ftpProfile.publishUrl)"
+          $server = $ftpProfile.publishUrl
           $username = $ftpProfile.userName
           $password = $ftpProfile.userPWD
 
