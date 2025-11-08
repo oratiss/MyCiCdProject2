@@ -10,16 +10,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Properties\PublishProfiles\**" />
-    <Compile Remove="Properties\ServiceDependencies\**" />
-    <Content Remove="Properties\PublishProfiles\**" />
-    <Content Remove="Properties\ServiceDependencies\**" />
-    <EmbeddedResource Remove="Properties\PublishProfiles\**" />
-    <EmbeddedResource Remove="Properties\ServiceDependencies\**" />
-    <None Remove="Properties\PublishProfiles\**" />
-    <None Remove="Properties\ServiceDependencies\**" />
-    <_WebToolingArtifacts Remove="Properties\PublishProfiles\**" />
-    <_WebToolingArtifacts Remove="Properties\ServiceDependencies\**" />
+    <Content Include="Properties\ServiceDependencies\photomvc-app - FTP\profile.arm.json" />
+    <Content Include="Properties\ServiceDependencies\photomvc-app - Web Deploy\profile.arm.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml.user" />
+    <None Include="Properties\PublishProfiles\photomvc-app - FTP.pubxml.user" />
+    <None Include="Properties\PublishProfiles\photomvc-app - Web Deploy.pubxml.user" />
+    <None Include="Properties\PublishProfiles\photomvc-app - Zip Deploy.pubxml.user" />
   </ItemGroup>
 
   <ItemGroup>

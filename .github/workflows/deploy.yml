@@ -72,12 +72,6 @@ jobs:
         with:
           name: webapp-package
           path: ./publish
-
-      - name: List files to be deployed
-        shell: powershell
-        run: |
-          Write-Host "Files in publish folder:"
-          Get-ChildItem -Path ./publish -Recurse | Select-Object FullName
       
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
