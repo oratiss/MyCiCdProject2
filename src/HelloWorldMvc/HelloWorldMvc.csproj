@@ -10,18 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Properties\ServiceDependencies\photomvc-app - FTP\profile.arm.json" />
-    <Content Include="Properties\ServiceDependencies\photomvc-app - Web Deploy\profile.arm.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml.user" />
-    <None Include="Properties\PublishProfiles\photomvc-app - FTP.pubxml.user" />
-    <None Include="Properties\PublishProfiles\photomvc-app - Web Deploy.pubxml.user" />
-    <None Include="Properties\PublishProfiles\photomvc-app - Zip Deploy.pubxml.user" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.6" />
   </ItemGroup>
