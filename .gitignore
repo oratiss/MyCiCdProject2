@@ -290,3 +290,5 @@ __pycache__/
 *.xsd.cs
 /infra/.terraform/providers/registry.terraform.io/hashicorp/azurerm/4.50.0/windows_amd64/terraform-provider-azurerm_v4.50.0_x5.exe
 /infra/.terraform/providers/registry.terraform.io/hashicorp/azurerm/4.51.0/windows_amd64/terraform-provider-azurerm_v4.51.0_x5.exe
+/infra/.terraform/providers/registry.terraform.io/hashicorp/azurerm/4.51.0/windows_amd64/terraform-provider-azurerm_v4.52.0_x5.exe
+/infra/.terraform/providers/registry.terraform.io/hashicorp/azurerm/4.52.0/windows_amd64/terraform-provider-azurerm_v4.52.0_x5.exe
