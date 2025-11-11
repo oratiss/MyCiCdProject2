@@ -40,15 +40,15 @@ namespace HelloWorldMvc.Controllers
             return View("Index", model);
         }
 
-        //[HttpPost(Name = "GoodBye")]
-        //public async Task<IActionResult> GoodBye()
-        //{
-        //    var client = httpClientFactory.CreateClient("ApiClient");
-        //    var apiResult = await client.GetFromJsonAsync<string>(_relativeUrlConfig.GoodByeRelativeRoute);
+        [HttpPost(Name = "GoodBye")]
+        public async Task<IActionResult> GoodBye()
+        {
+            var client = httpClientFactory.CreateClient("ApiClient");
+            var apiResult = await client.GetFromJsonAsync<string>(_relativeUrlConfig.GoodByeRelativeRoute);
 
-        //    HiByeIndexViewModel model = new() { Message = apiResult };
-        //    return View("Index", model);
-        //}
+            HiByeIndexViewModel model = new() { Message = apiResult };
+            return View("Index", model);
+        }
 
         [HttpPost(Name = "WhatsUp")]
         public async Task<IActionResult> WhatsUp()
