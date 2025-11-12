@@ -4,14 +4,9 @@ using Microsoft.VisualStudio.TestPlatform.TestHost;
 
 namespace IntegrationTest
 {
-    public class HiByeTests: IClassFixture<CustomWebApplicationFactory>
+    public class HiByeTests(CustomWebApplicationFactory factory) : IClassFixture<CustomWebApplicationFactory>
     {
-        private readonly HttpClient _client;
-
-        public HiByeTests(CustomWebApplicationFactory factory)
-        {
-            _client = factory.CreateClient();
-        }
+        private readonly HttpClient _client = factory.CreateClient();
 
         [Fact]
         public async Task Get_HelloWorld_ReturnsSuccessAndJson()
